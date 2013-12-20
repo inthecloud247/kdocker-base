@@ -3,7 +3,8 @@ kdocker-base
 
 ### Introduction
 
-A base linux image based on ubuntu:12.04.3-LTS Supervisord and OpenSSH server have been pre-installed in this image. It will serve as base image for all the kdocker series of Docker images.
+A base linux image based on ubuntu:12.04.3-LTS 
+Supervisord, Hekad, Cron, sshd and standard build utils have been pre-installed in this image. It will serve as base image for all the kdocker series of Docker images.
 
 ### Usage
 
@@ -29,6 +30,8 @@ curl python-software-properties nano supervisor git uuid-dev libtool automake pk
 ### Configured Services & Ports
 
 - supervisord / -
+- hekad / 5565
+- crond / -
 - sshd / 22
 
 ### Set local firewall:
