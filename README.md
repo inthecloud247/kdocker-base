@@ -1,4 +1,36 @@
 kdocker-base
 ============
 
-base ubuntu 12.04
+### Introduction
+
+A base linux image based on ubuntu:12.04.3-LTS Supervisord and OpenSSH server have been pre-installed in this image. It will serve as base image for all the kdocker series of Docker images.
+
+### Usage
+
+##### From Docker Public Repository
+
+  > docker pull inthecloud/kdocker-base
+
+##### Using Source
+
+  > git clone git@github.com:ydavid365/kdocker-base.git
+  > cd kdocker-base
+  > docker build -rm -t {{ user }}/{{ image-name }} .
+
+### Login Details
+
+- root / root
+- ubuntu / ubuntu
+
+### Installed Packages
+
+curl python-software-properties nano supervisor git uuid-dev libtool automake pkg-config unzip make build-essential rsync openssh-server ssh
+
+### Configured Services & Ports
+
+- supervisord / -
+- sshd / 22
+
+### Set local firewall:
+
+- sudo ufw allow 5565/tcp
