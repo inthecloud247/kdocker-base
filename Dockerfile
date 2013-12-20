@@ -18,10 +18,7 @@ RUN \
     openssh-server \
     ssh \
     git \
-    supervisor; \
-    cd /data/setupfiles/cache; \
-    wget -p -c --no-check-certificate https://github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb; \
-    dpkg -i ./github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb;
+    supervisor;
 
 VOLUME [ "/var/log/supervisor"]
 VOLUME [ "/data" ]
@@ -33,6 +30,9 @@ ADD setupfiles/ /data/setupfiles/
 
 # custom commands
 RUN \
+  cd /data/setupfiles/cache; \
+  wget -p -c --no-check-certificate https://github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb; \
+  dpkg -i ./github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb; \
   mkdir /var/run/sshd; \
   useradd -d /home/ubuntu -m ubuntu -s /bin/bash -c "ubuntu user"; \
   adduser ubuntu sudo; \
