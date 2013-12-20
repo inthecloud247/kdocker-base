@@ -54,5 +54,5 @@ RUN \
 # expose ports and execute the run script
 EXPOSE 22
 EXPOSE 5565
-
+VOLUME [ "/data" ]
 CMD ["/usr/bin/supervisord", "--nodaemon"]
