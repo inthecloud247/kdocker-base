@@ -1,7 +1,7 @@
 FROM inthecloud247/kdocker-ubuntu
 MAINTAINER inthecloud247 "inthecloud247@gmail.com"
 
-ENV LAST_UPDATED 2013-12-18
+ENV LAST_UPDATED 2013-12-20
 
 # Dev Packages (very large.)
 RUN \
