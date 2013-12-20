@@ -51,7 +51,7 @@ RUN \
   LOGSERVER_IP=$(/sbin/ip route | awk '/default/ { print $3; }'); \
   sed -i "s/{{LOGSERVER_IP}}/$LOGSERVER_IP/g" /etc/hekad/aggregator_output.toml;
 
-# expose ports and execute the run script
+# expose ports, add volumes and execute the CMD script
 EXPOSE 22
 EXPOSE 5565
 VOLUME [ "/data" ]
