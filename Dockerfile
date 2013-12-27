@@ -31,13 +31,13 @@ RUN \
   `# Create cache directory`; \
   DIR_CACHE="/setupfiles/cache/"; \
   mkdir -vp $DIR_CACHE; \
-  cd $DIR_CACHE;
 
 # put custom commands here
 RUN \
   `# Install hekad`; \
-  DL_PROTO="https://"
+  DL_PROTO="https://"; \
   DL_FILE="github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb"; \
+  cd $DIR_CACHE; \
   wget -p -c --no-check-certificate $DL_PROTO$DL_FILE; \
   dpkg -i $DIR_CACHE$DL_FILE; \
   \
