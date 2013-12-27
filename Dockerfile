@@ -1,7 +1,7 @@
 FROM inthecloud247/kdocker-ubuntu
 MAINTAINER inthecloud247 "inthecloud247@gmail.com"
 
-ENV LAST_UPDATED 2013-12-20
+ENV LAST_UPDATED 2013-12-26
 
 # Dev Packages (very large.)
 RUN \
@@ -26,12 +26,20 @@ RUN \
 # copy required conf files and folders
 ADD setupfiles/ /setupfiles/
 
+# standard directory setup
+RUN \
+  `# Create cache directory`; \
+  DIR_CACHE="/setupfiles/cache/"; \
+  mkdir -vp $DIR_CACHE; \
+  cd $DIR_CACHE;
+
 # put custom commands here
 RUN \
-  `# Install hekad (using cache if possible)`; \
-  cd /setupfiles/cache; \
-  wget -p -c --no-check-certificate https://github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb; \
-  dpkg -i ./github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb; \
+  `# Install hekad`; \
+  DL_PROTO="https://"
+  DL_FILE="github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb"; \
+  wget -p -c --no-check-certificate $DL_PROTO$DL_FILE; \
+  dpkg -i $DIR_CACHE$DL_FILE; \
   \
   `# fix ssh`; \
   mkdir -v /var/run/sshd; \
@@ -45,11 +53,17 @@ RUN \
   `# Setup supervisord config files and log directories`; \
   for p in hekad crond sshd; do mkdir -v /var/log/supervisor/$p; done; \
   cp -vr /setupfiles/confs/etc /; \
-  rm -vrf /setupfiles; \
   \
   `# Add LOGSERVER ip address to hekad config`; \
   LOGSERVER_IP=$(/sbin/ip route | awk '/default/ { print $3; }'); \
   sed -i "s/{{LOGSERVER_IP}}/$LOGSERVER_IP/g" /etc/hekad/aggregator_output.toml;
+
+# cleanup
+RUN \
+  `# CLEANUP`; \
+  rm -vrf /setupfiles;
+
+
 
 # expose ports, add volumes and execute the CMD script
 EXPOSE 22
