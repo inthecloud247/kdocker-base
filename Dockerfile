@@ -28,7 +28,7 @@ RUN \
     sysstat \
     ethtool \
     bwm-ng \
-    net-utils \
+    net-tools \
     iputils*
 
 # copy required conf files and folders
