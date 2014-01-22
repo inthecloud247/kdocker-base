@@ -1,8 +1,6 @@
 FROM inthecloud247/kdocker-ubuntu
 MAINTAINER inthecloud247 "inthecloud247@gmail.com"
 
-ENV LAST_UPDATED 2013-12-26
-
 # Dev Packages (very large.)
 RUN \
  apt-get -y install \
@@ -11,7 +9,7 @@ RUN \
    make \
    automake \
    uuid-dev \
-   libtool   
+   libtool
 
 RUN \
   apt-get -y install \
@@ -21,7 +19,17 @@ RUN \
     supervisor \
     cron;
 
-## NO CACHING past this point ##
+# good system tools
+RUN \
+  apt-get -y install \
+    iotop \
+    pv \
+    hdparm \
+    sysstat \
+    ethtool \
+    bwm-ng \
+    net-utils \
+    iputils*
 
 # copy required conf files and folders
 ADD setupfiles/ /setupfiles/
@@ -31,9 +39,10 @@ RUN \
   `# Create cache directory`; \
   DIR_CACHE="/setupfiles/cache/"; \
   mkdir -vp $DIR_CACHE; \
-
-# put custom commands here
-RUN \
+  \
+  `############################`; \
+  `# put custom commands here`; \
+  `############################`; \
   `# Install hekad`; \
   DL_PROTO="https://"; \
   DL_FILE="github.com/mozilla-services/heka/releases/download/v0.4.2/heka_0.4.2_amd64.deb"; \
@@ -56,17 +65,17 @@ RUN \
   \
   `# Add LOGSERVER ip address to hekad config`; \
   LOGSERVER_IP=$(/sbin/ip route | awk '/default/ { print $3; }'); \
-  sed -i "s/{{LOGSERVER_IP}}/$LOGSERVER_IP/g" /etc/hekad/aggregator_output.toml;
-
-# cleanup
-RUN \
+  sed -i "s/{{LOGSERVER_IP}}/$LOGSERVER_IP/g" /etc/hekad/aggregator_output.toml; \
+  `###############################`; \
   `# CLEANUP`; \
+  `###############################`; \
   rm -vrf /setupfiles;
 
-
-
-# expose ports, add volumes and execute the CMD script
-EXPOSE 22
-EXPOSE 5565
-VOLUME [ "/data" ]
 CMD ["/usr/bin/supervisord", "--nodaemon"]
+
+# sshd port
+EXPOSE 22
+# hekad port
+EXPOSE 5565
+# data volume
+VOLUME [ "/data" ]
