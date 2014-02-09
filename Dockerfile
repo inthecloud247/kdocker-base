@@ -17,7 +17,11 @@ RUN \
     ssh \
     git \
     supervisor \
-    cron;
+    cron \
+    vim \
+    screen \
+    byobu \
+    tmux;
 
 # good system tools
 RUN \
@@ -74,8 +78,8 @@ RUN \
 CMD ["/usr/bin/supervisord", "--nodaemon"]
 
 # sshd port
-EXPOSE 22
+# EXPOSE 22
 # hekad port
-EXPOSE 5565
+# EXPOSE 5565
 # data volume
-VOLUME [ "/data" ]
+# VOLUME [ "/data" ]
