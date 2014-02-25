@@ -14,7 +14,7 @@ Supervisord, Hekad, Cron, sshd and standard build utils have been pre-installed 
 
 ##### Using Source
 
-  > git clone git@github.com:ydavid365/kdocker-base.git
+  > git clone git@github.com:inthecloud247/kdocker-base.git
   > cd kdocker-base
   > docker build -t {{ user }}/{{ image-name }} .
 
